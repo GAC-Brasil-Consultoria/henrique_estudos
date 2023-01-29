@@ -18,6 +18,9 @@ class CriaTabelaCores extends Migration
             'name' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
+            ],
+            'description' => [
+                'type'       => 'TEXT'
             ]
         ]);
         $this->forge->addKey('id', true);

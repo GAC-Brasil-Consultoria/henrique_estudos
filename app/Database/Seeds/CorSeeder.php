@@ -12,16 +12,20 @@ class CorSeeder extends Seeder
 
         $cores = [
             [
-                'name' => 'Amarela'
+                'name' => 'Amarela',
+                'description' => 'Color description'
             ],
             [
-                'name' => 'Azul'
+                'name' => 'Azul',
+                'description' => 'Color description'
             ],
             [
-                'name' => 'Vermelha'
+                'name' => 'Vermelha',
+                'description' => 'Color description'
             ],
             [
-                'name' => 'Verde'
+                'name' => 'Verde',
+                'description' => 'Color description'
             ],
         ];
 

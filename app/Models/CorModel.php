@@ -10,6 +10,6 @@ class CorModel extends Model
     protected $primaryKey       = 'id';
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['name'];    
+    protected $allowedFields    = ['name','description'];    
    
 }
