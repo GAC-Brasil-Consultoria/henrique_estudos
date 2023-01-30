@@ -22,7 +22,7 @@ class Teste extends BaseController
 
         $data = [
             'Title' => 'Array of Colors',
-            'colors' => $corModel->findAll()
+            'colors' => $corModel->where('active', true)->findAll()
         ];
         
         return view('minha', $data);
