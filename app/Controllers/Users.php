@@ -21,4 +21,25 @@ class Users extends BaseController
 
         return view('Users/index', $data);
     }
+
+    public function getUsers()
+    {
+        /*if(!$this->request->isAJAX())
+            return redirect()->back();
+        */
+
+        $atributes = [
+            'id',
+            'name',
+            'email',
+            'active',
+            'image'
+        ];
+
+        $users = $this->userModel->select($atributes)->findAll();
+
+        echo '<pre>';
+        print_r($users);
+        exit;
+    }
 }
