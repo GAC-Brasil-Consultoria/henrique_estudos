@@ -38,8 +38,22 @@ class Users extends BaseController
 
         $users = $this->userModel->select($atributes)->findAll();
 
-        echo '<pre>';
-        print_r($users);
-        exit;
+        $data = [];
+
+        foreach($users as $user)
+        {
+            $data[] = [
+                'image' => $user->image,
+                'name' => esc($user->name),
+                'email' => esc($user->email),
+                'active' => $user->active == true ? 'Active' : '<span class="text-warning">Inactive</span>'
+            ];
+        }
+
+        $retorno = [
+            'data' => $data
+        ];
+
+        return $this->response->setJSON($retorno);
     }
 }
