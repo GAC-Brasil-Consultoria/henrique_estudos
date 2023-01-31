@@ -20,11 +20,10 @@
                     <table id="ajaxTable" class="table table-striped table-sm">
                       <thead>
                         <tr>
-                          <th>#</th>
                           <th>Image</th>
                           <th>Name</th>
                           <th>e-mail</th>
-                          <th>Situation</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
                     </table>
@@ -48,7 +47,7 @@
         columns: [
             { data: 'image' },
             { data: 'name' },
-            { data: 'enail' },
+            { data: 'email' },
             { data: 'active' }
         ],
     });
