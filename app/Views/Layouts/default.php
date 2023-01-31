@@ -212,7 +212,9 @@
         </div>
         <section class="no-padding-top no-padding-bottom">
 
-          <?php echo $this->renderSection('content'); ?>
+          <div class="container-fluid">
+            <?php echo $this->renderSection('content'); ?>
+          </div>
           
         </section>
         <footer class="footer">
