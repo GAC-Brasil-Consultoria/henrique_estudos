@@ -41,4 +41,18 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.1/r-2.4.0/datatables.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+    $('#ajaxTable').DataTable({
+        ajax: '<?php echo site_url('users/getUsers') ?>',
+        columns: [
+            { data: 'image' },
+            { data: 'name' },
+            { data: 'enail' },
+            { data: 'active' }
+        ],
+    });
+});
+</script>
+
 <?php echo $this->endSection() ?>
