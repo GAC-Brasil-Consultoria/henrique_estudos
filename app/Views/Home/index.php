@@ -3,7 +3,7 @@
 <?php $this->section('title') ?> <?php echo $title; ?> <?php echo $this->endSection() ?>
 
 
-<?php $this->section('content') ?>
+<?php $this->section('styles') ?>
 
 <?php echo $this->endSection() ?>
 
