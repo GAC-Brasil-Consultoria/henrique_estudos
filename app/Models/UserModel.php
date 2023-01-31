@@ -10,7 +10,7 @@ class UserModel extends Model
 
 
     protected $primaryKey       = 'id';
-    protected $returnType       = 'array';
+    protected $returnType       = 'object';
     protected $useSoftDeletes   = true;
     protected $allowedFields    = [
         'name',
