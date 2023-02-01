@@ -22,14 +22,13 @@ class UserFakerSeeder extends Seeder
                 'name' => $faker->unique()->name,
                 'email' => $faker->unique()->email,
                 'password_hash' => '123456',
-                'ativo' => true
+                'active' => true
             ]);
-
             echo '<pre>';
             print_r($usersPush);
         }
 
-        $userModel->skipValidation(true)->protect(true)->insertBatch($usersPush);
+        $userModel->skipValidation(true)->protect(false)->insertBatch($usersPush);
 
         echo "$howManyUsers criados com sucesso!";
     }
