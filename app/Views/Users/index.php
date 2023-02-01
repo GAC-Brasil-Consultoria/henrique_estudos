@@ -17,7 +17,7 @@
 <div class="col-lg-12">
                 <div class="block">
                   <div class="table-responsive"> 
-                    <table id="ajaxTable" class="table table-striped table-sm">
+                    <table id="ajaxTable" class="table table-striped table-sm" style="width: 100%;">
                       <thead>
                         <tr>
                           <th>Image</th>
@@ -50,6 +50,13 @@
             { data: 'email' },
             { data: 'active' }
         ],
+        "deferRender" : true,
+        "processing" : true,
+        "language" : {
+          processing : '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>'
+        },
+        "responsive": true,
+        "pagingType" : $(window).width() < 768 ? "simple" : "simple_numbers"
     });
 });
 </script>
