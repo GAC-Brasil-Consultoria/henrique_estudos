@@ -24,9 +24,9 @@ class Users extends BaseController
 
     public function getUsers()
     {
-        /*if(!$this->request->isAJAX())
+        if(!$this->request->isAJAX())
             return redirect()->back();
-        */
+        
 
         $atributes = [
             'id',
@@ -82,6 +82,18 @@ class Users extends BaseController
         ];
 
         return view('Users/edit', $data);
+    }
+    
+    public function update()
+    {
+        if(!$this->request->isAJAX())
+            return redirect()->back();
+        
+        $post = $this->request->getPost();
+
+        echo '<pre>';
+        print_r($post);
+        exit;
     }
 
     private function getUser(int $id = null)

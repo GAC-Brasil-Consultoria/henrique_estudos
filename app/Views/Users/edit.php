@@ -25,8 +25,8 @@
             
             <div class="block-body">
                 <div class="form-group mt-5 mb-4">
-                    <input id="btn-salvar" type="submit" value="Save" class="btn btn-danger mr-2">
-                    <a href="<?php echo site_url("users/show/$user->id") ?>" class="btn btn-secondary ml-2">Back</a>
+                    <input id="btn-save" type="submit" value="Save" class="btn btn-danger btn-sm mr-2">
+                    <a href="<?php echo site_url("users/show/$user->id") ?>" class="btn btn-secondary btn-sm ml-2">Back</a>
                 </div>
             </div>
             
@@ -40,5 +40,32 @@
 
 
 <?php $this->section('scripts') ?>
+
+<script>
+    $(document).ready(function(){
+
+        $("#form").on('submit', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo site_url('users/update') ?>',
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function(){
+                    $("#response").html('');
+                    $("#btn-save").val('Wait..');
+                },
+                success: function(response){
+                    $("#btn-save").val('Save');
+                    $("#btn-save").removeAttr("disabled");
+                },
+            })
+        });
+    });
+</script>
 
 <?php echo $this->endSection() ?>
