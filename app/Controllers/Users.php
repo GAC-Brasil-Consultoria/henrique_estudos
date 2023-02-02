@@ -47,7 +47,7 @@ class Users extends BaseController
                 'image' => $user->image,
                 'name' => anchor("users/show/$user->id", esc($user->name), 'title="Show '.$userName.' user"'),
                 'email' => esc($user->email),
-                'active' => $user->active == true ? 'Active' : '<span class="text-warning">Inactive</span>'
+                'active' => $user->active == true ? '<i class="fa fa-unlock text-sucess"></i>&nbsp;Active' : '<i class="fa fa-unlock text-warning"></i>&nbsp;Inactive'
             ];
         }
 
