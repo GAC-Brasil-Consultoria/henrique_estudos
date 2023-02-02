@@ -5,7 +5,7 @@
 
 <div class="form-group">
     <label class="form-control-label">Email</label>
-    <input type="email" placeholder="Email Address" class="form-control">
+    <input type="email" placeholder="Email Address" class="form-control" value="<?php echo esc($user->email) ?>">
 </div>
 
 <div class="form-group">       
