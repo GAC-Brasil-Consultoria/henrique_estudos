@@ -72,6 +72,18 @@ class Users extends BaseController
         return view('Users/show', $data);
     }
 
+    public function edit(int $id = null)
+    {
+        $user = $this->getUser($id);
+
+        $data = [
+            'title' => "Editing user ".esc($user->name),
+            'user' => $user
+        ];
+
+        return view('Users/show', $data);
+    }
+
     private function getUser(int $id = null)
     {
         if(!$id || !$user = $this->userModel->withDeleted(true)->find($id))
