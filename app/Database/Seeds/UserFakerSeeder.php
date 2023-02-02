@@ -12,7 +12,7 @@ class UserFakerSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
         
-        $howManyUsers = 50;
+        $howManyUsers = 500;
 
         $usersPush = [];
 
@@ -22,10 +22,8 @@ class UserFakerSeeder extends Seeder
                 'name' => $faker->unique()->name,
                 'email' => $faker->unique()->email,
                 'password_hash' => '123456',
-                'active' => true
+                'active' => $faker->numberBetween(0,1)
             ]);
-            echo '<pre>';
-            print_r($usersPush);
         }
 
         $userModel->skipValidation(true)->protect(false)->insertBatch($usersPush);
