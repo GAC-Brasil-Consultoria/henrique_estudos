@@ -19,7 +19,9 @@
 
             </div>
 
-            <?php echo form_open('/', ['id' => 'form', ['id'=>"$user->id"]]) ?>
+            <?php echo form_open('/', ['id' => 'form'], ['id'=>"$user->id"]) ?>
+
+            <?php echo $this->include('Users/_form') ?>
             
             <div class="block-body">
                 <div class="form-group mt-5 mb-4">
