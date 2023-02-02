@@ -10,7 +10,7 @@ class UserModel extends Model
 
 
     protected $primaryKey       = 'id';
-    protected $returnType       = 'object';
+    protected $returnType       = 'App\Entities\User';
     protected $useSoftDeletes   = true;
     protected $allowedFields    = [
         'name',
