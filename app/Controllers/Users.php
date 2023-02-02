@@ -42,9 +42,10 @@ class Users extends BaseController
 
         foreach($users as $user)
         {
+            $userName = esc($user->name);
             $data[] = [
                 'image' => $user->image,
-                'name' => esc($user->name),
+                'name' => anchor("users/show/$user->id", esc($user->name), 'title="Show '.$userName.' user"'),
                 'email' => esc($user->email),
                 'active' => $user->active == true ? 'Active' : '<span class="text-warning">Inactive</span>'
             ];
@@ -55,5 +56,29 @@ class Users extends BaseController
         ];
 
         return $this->response->setJSON($retorno);
+    }
+
+    public function show(int $id = null)
+    {
+        $user = $this->getUser($id);
+
+
+
+        $data = [
+            'title' => "Detailing user ".esc($user->name),
+            'user' => $user
+        ];
+
+        return view('Users/show', $data);
+    }
+
+    private function getUser(int $id = null)
+    {
+        if(!$id || !$user = $this->userModel->withDeleted(true)->find($id))
+        {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("User $id not found");
+        }
+
+        return $user;
     }
 }
