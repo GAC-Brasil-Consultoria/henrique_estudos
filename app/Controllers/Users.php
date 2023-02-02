@@ -81,7 +81,7 @@ class Users extends BaseController
             'user' => $user
         ];
 
-        return view('Users/show', $data);
+        return view('Users/edit', $data);
     }
 
     private function getUser(int $id = null)

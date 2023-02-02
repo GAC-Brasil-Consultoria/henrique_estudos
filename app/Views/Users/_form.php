@@ -14,7 +14,7 @@
 </div>
 
 <div class="form-group">       
-    <label class="form-control-label">Password</label>
+    <label class="form-control-label">Password confirmation</label>
     <input type="password" name="password" placeholder="Password confirmation" class="form-control">
 </div>
 
