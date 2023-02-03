@@ -62,8 +62,46 @@
                 success: function(response){
                     $("#btn-save").val('Save');
                     $("#btn-save").removeAttr("disabled");
+
+                    $('[name=csrf_test_name ]').val(response.token);
+
+                    if(!response.error)
+                    {
+                        
+                        if(response.info)
+                        {
+                            $("#response").html('<div class="alert alert-primary">'+response.info+'</div>')
+                            
+                        }
+                        else
+                        {
+                            window.location.href = "<?php echo site_url("users/show/$user->id"); ?>"
+                            console.log('2');
+                        }
+                    }
+                    if(response.error)
+                    {
+                        $("#response").html('<div class="alert alert-danger">'+response.error+'</div>');
+                        if(response.errors_model)
+                        {
+                            $.each(response.errors_model, function(key, value){
+                                $('#response').append('<ul class="list-unstyled"><li class="text-danger">'+value+'</li></ul>')
+                            })
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
                 },
+                error: function(){
+                    alert('Error');
+                    $('#btn-salvar').val('Save');
+                }
             })
+        });
+        $("#form").submit(function(){
+            $(this).find(":submit").attr('disable', 'disabled');
         });
     });
 </script>
