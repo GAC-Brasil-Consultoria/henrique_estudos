@@ -89,8 +89,6 @@ class Users extends BaseController
         if(!$this->request->isAJAX())
             return redirect()->back();
         
-        $post = $this->request->getPost();
-
         $return['token'] = csrf_hash();
         $return['error'] = "Validation error!";
         $return['errors_model'] = [
@@ -101,12 +99,6 @@ class Users extends BaseController
         //$return['info'] = "Ok message!";
 
         return $this->response->setJSON($return);
-
-        $post = $this->request->getPost();
-
-        echo '<pre>';
-        print_r($post);
-        exit;
     }
 
     private function getUser(int $id = null)
