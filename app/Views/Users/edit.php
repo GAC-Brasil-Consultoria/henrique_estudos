@@ -76,7 +76,6 @@
                         else
                         {
                             window.location.href = "<?php echo site_url("users/show/$user->id"); ?>"
-                            console.log('2');
                         }
                     }
                     if(response.error)
@@ -89,19 +88,19 @@
                             })
                         }
                     }
-                    else
-                    {
-                        
-                    }
                 },
-                error: function(){
+                error: function(e){
                     alert('Error');
+                    var r = jQuery.parseJSON(e.responseText);
+                    console.log("Message: " + r.Message);
+                    console.log("StackTrace: " + r.StackTrace);
+                    console.log("ExceptionType: " + r.ExceptionType);
                     $('#btn-salvar').val('Save');
                 }
             })
         });
         $("#form").submit(function(){
-            $(this).find(":submit").attr('disable', 'disabled');
+            $(this).find(":submit").attr('disabled', 'disabled');
         });
     });
 </script>
