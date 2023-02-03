@@ -29,6 +29,7 @@
 
             <h5 class="card-title mt-2"><?php echo esc($user->name); ?></h5>
             <p class="card-text"><?php echo esc($user->email); ?></p>
+            <p class="card-text">Status: <?php echo ($user->active == true) ? 'Active' : 'Inactive'; ?></p>
             <p class="card-text">Created <?php echo $user->created_at->humanize(); ?></p>
             <p class="card-text">Updated <?php echo $user->updated_at->humanize(); ?></p>
             <!-- Example single danger button -->
