@@ -5,7 +5,7 @@
 
 <div class="form-group">
     <label class="form-control-label">Email</label>
-    <input type="email" placeholder="Email Address" class="form-control" value="<?php echo esc($user->email) ?>">
+    <input type="email" name="email" placeholder="Email Address" class="form-control" value="<?php echo esc($user->email) ?>">
 </div>
 
 <div class="form-group">       
@@ -15,7 +15,7 @@
 
 <div class="form-group">       
     <label class="form-control-label">Password confirmation</label>
-    <input type="password" name="password" placeholder="Password confirmation" class="form-control">
+    <input type="password" name="password_confirmation" placeholder="Password confirmation" class="form-control">
 </div>
 
 <div class="custom-control custom-checkbox">
