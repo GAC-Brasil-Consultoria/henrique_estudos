@@ -91,6 +91,19 @@ class Users extends BaseController
         
         $post = $this->request->getPost();
 
+        $return['token'] = csrf_hash();
+        $return['error'] = "Validation error!";
+        $return['errors_model'] = [
+            'name' => 'The name is required',
+            'email' => 'Invalid email',
+            'password' => 'Password too short',
+        ];
+        //$return['info'] = "Ok message!";
+
+        return $this->response->setJSON($return);
+
+        $post = $this->request->getPost();
+
         echo '<pre>';
         print_r($post);
         exit;
