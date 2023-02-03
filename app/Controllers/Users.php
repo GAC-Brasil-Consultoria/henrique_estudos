@@ -90,13 +90,29 @@ class Users extends BaseController
             return redirect()->back();
         
         $return['token'] = csrf_hash();
-        $return['error'] = "Validation error!";
-        $return['errors_model'] = [
-            'name' => 'The name is required',
-            'email' => 'Invalid email',
-            'password' => 'Password too short',
-        ];
-        //$return['info'] = "Ok message!";
+
+        $post = $this->request->getPost();
+
+        unset($post['password']);
+        unset($post['password_confirmation']);
+        
+        $user = $this->getUser($post['id']);
+
+        $user->fill($post);
+
+        if($user->hasChanged() == false)
+        {
+            $return['info'] = "No data to update...";
+            return $this->response->setJSON($return);
+        }
+
+        if($this->userModel->protect(false)->save($user))
+        {
+            return $this->response->setJSON($return);
+        }
+        print_r('test');
+        $return['error'] = 'Plese, check the errors below and try again';
+        $return['errors_model'] = $this->userModel->errors();        
 
         return $this->response->setJSON($return);
     }
