@@ -115,6 +115,7 @@ class Users extends BaseController
 
         if($this->userModel->protect(false)->save($user))
         {
+            session()->setFlashdata('sucess', 'Data saved!');
             return $this->response->setJSON($return);
         }
         
