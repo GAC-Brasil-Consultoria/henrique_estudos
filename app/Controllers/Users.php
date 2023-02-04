@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 
+use function PHPUnit\Framework\isEmpty;
+
 class Users extends BaseController
 {
     private $userModel;
@@ -93,13 +95,18 @@ class Users extends BaseController
 
         $post = $this->request->getPost();
 
-        unset($post['password']);
-        unset($post['password_confirmation']);
+        
         
         $user = $this->getUser($post['id']);
-
-        $user->fill($post);
-
+        
+        if(empty($post['password']))
+        {
+            unset($post['password']);
+            unset($post['password_confirmation']);
+        }
+        
+        $user->fill($post);        
+        
         if($user->hasChanged() == false)
         {
             $return['info'] = "No data to update...";
@@ -110,7 +117,7 @@ class Users extends BaseController
         {
             return $this->response->setJSON($return);
         }
-        print_r('test');
+        
         $return['error'] = 'Plese, check the errors below and try again';
         $return['errors_model'] = $this->userModel->errors();        
 
