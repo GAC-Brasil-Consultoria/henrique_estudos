@@ -16,6 +16,7 @@
 
 <div class="col-lg-12">
                 <div class="block">
+                  <a href="<?php echo site_url('users/add'); ?>" class="btn btn-danger mb-3">Add new User</a>
                   <div class="table-responsive"> 
                     <table id="ajaxTable" class="table table-striped table-sm" style="width: 100%;">
                       <thead>
