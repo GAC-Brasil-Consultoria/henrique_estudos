@@ -53,7 +53,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '<?php echo site_url('users/update') ?>',
+            url: '<?php echo site_url('users/upload') ?>',
             data: new FormData(this),
             dataType: 'json',
             contentType: false,
@@ -71,14 +71,7 @@ $(document).ready(function() {
 
                 if (!response.error) {
 
-                    if (response.info) {
-                        $("#response").html('<div class="alert alert-primary">' + response
-                            .info + '</div>')
-
-                    } else {
-                        window.location.href =
-                            "<?php echo site_url("users/show/$user->id"); ?>"
-                    }
+                    window.location.href = "<?php echo site_url("users/show/$user->id"); ?>"
                 }
                 if (response.error) {
                     $("#response").html('<div class="alert alert-danger">' + response

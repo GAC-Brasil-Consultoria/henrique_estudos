@@ -125,6 +125,87 @@ class Users extends BaseController
 
         return view('Users/edit', $data);
     }
+
+    public function upload()
+    {
+        if(!$this->request->isAJAX())
+            return redirect()->back();
+        
+        $return['token'] = csrf_hash();
+
+        $validation = service('validation');
+
+        $rules = [
+            'img' => 'uploaded[img]|max_size[img,1024]|ext_in[img,png,jpg,jpeg,webp]',
+        ];
+
+        $messages = [   // Errors
+            'img' => [
+                'uploaded' => 'Please, choose a image',
+                'ext_in' => 'The file must be png, jpg, jpeg or webp'
+            ],
+        ];
+
+        $validation->setRules($rules, $messages);
+
+        if($validation->withRequest($this->request)->run() == false)
+        {
+            $return['error'] = 'Plese, check the errors below and try again';
+            $return['errors_model'] = $validation->getErrors();        
+
+            return $this->response->setJSON($return);
+        }
+
+        $post = $this->request->getPost();
+
+        
+        
+        $user = $this->getUser($post['id']);
+
+        $img = $this->request->getFile('img');
+
+        list($width, $heigth) = getimagesize($img->getPathname());
+
+        if($width < "300" || $heigth <  "300")
+        {
+            $return['error'] = 'Plese, check the errors below and try again';
+            $return['errors_model'] = ['minSize' => 'The image cannot be less than 300 x 300 pixels'];        
+
+            return $this->response->setJSON($return);
+        }
+
+        $imgPath = $img->store('avatars');
+
+        $imgPath = WRITEPATH . 'uploads/'.$imgPath;
+
+        print_r($imgPath);
+        exit;
+        
+        if(empty($post['password']))
+        {
+            unset($post['password']);
+            unset($post['password_confirmation']);
+        }
+        
+        $user->fill($post);        
+        
+        if($user->hasChanged() == false)
+        {
+            $return['info'] = "No data to update...";
+            return $this->response->setJSON($return);
+        }
+
+        if($this->userModel->protect(false)->save($user))
+        {
+            session()->setFlashdata('sucess', 'Data saved!');
+            return $this->response->setJSON($return);
+        }
+        
+        $return['error'] = 'Plese, check the errors below and try again';
+        $return['errors_model'] = $this->userModel->errors();        
+
+        return $this->response->setJSON($return);
+    }
     
     public function update()
     {
