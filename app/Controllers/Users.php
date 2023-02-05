@@ -39,7 +39,7 @@ class Users extends BaseController
             'image'
         ];
 
-        $users = $this->userModel->select($atributes)->findAll();
+        $users = $this->userModel->select($atributes)->orderBy('id', 'DESC')->findAll();
 
         $data = [];
 
@@ -87,6 +87,31 @@ class Users extends BaseController
         ];
 
         return view('Users/add', $data);
+    }
+
+    public function insert()
+    {
+        if(!$this->request->isAJAX())
+            return redirect()->back();
+        
+        $return['token'] = csrf_hash();
+
+        $post = $this->request->getPost();
+
+        $user = new User($post);
+        
+        if($this->userModel->protect(false)->save($user))
+        {
+            $btnAdd = anchor("users/add", 'Register new user', ['class' => 'btn btn-danger mt-2']);
+            session()->setFlashdata('sucess', "Data saved! <br> $btnAdd");
+            $return['id'] = $this->userModel->getInsertID();
+            return $this->response->setJSON($return);
+        }
+        
+        $return['error'] = 'Plese, check the errors below and try again';
+        $return['errors_model'] = $this->userModel->errors();        
+
+        return $this->response->setJSON($return);
     }
 
     public function edit(int $id = null)
@@ -138,6 +163,18 @@ class Users extends BaseController
         $return['errors_model'] = $this->userModel->errors();        
 
         return $this->response->setJSON($return);
+    }
+
+    public function editImg(int $id = null)
+    {
+        $user = $this->getUser($id);
+
+        $data = [
+            'title' => "changing ".esc($user->name)." profile picture",
+            'user' => $user
+        ];
+
+        return view('Users/edit_img', $data);
     }
 
     private function getUser(int $id = null)
