@@ -26,7 +26,7 @@
             <div class="block-body">
                 <div class="form-group mt-5 mb-4">
                     <input id="btn-save" type="submit" value="Save" class="btn btn-danger btn-sm mr-2">
-                    <a href="<?php echo site_url("users/show/$user->id") ?>" class="btn btn-secondary btn-sm ml-2">Back</a>
+                    <a href="<?php echo site_url("users") ?>" class="btn btn-secondary btn-sm ml-2">Back</a>
                 </div>
             </div>
             
@@ -49,7 +49,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '<?php echo site_url('users/update') ?>',
+                url: '<?php echo site_url('users/insert') ?>',
                 data: new FormData(this),
                 dataType: 'json',
                 contentType: false,
@@ -75,7 +75,7 @@
                         }
                         else
                         {
-                            window.location.href = "<?php echo site_url("users/show/$user->id"); ?>"
+                            window.location.href = "<?php echo site_url("users/show/"); ?>"+response.id;
                         }
                     }
                     if(response.error)
