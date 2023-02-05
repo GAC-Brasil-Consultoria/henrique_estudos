@@ -200,6 +200,9 @@ class Mimes
             'image/jpeg',
             'image/pjpeg',
         ],
+        'webp' => [
+            'image/webp',
+        ],
         'jpe' => [
             'image/jpeg',
             'image/pjpeg',
