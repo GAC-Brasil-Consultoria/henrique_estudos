@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 
+use App\Entities\User;
 use function PHPUnit\Framework\isEmpty;
 
 class Users extends BaseController
@@ -72,6 +73,20 @@ class Users extends BaseController
         ];
 
         return view('Users/show', $data);
+    }
+
+    public function add()
+    {
+        $user = new User();
+
+        //dd($user);
+        
+        $data = [
+            'title' => "Creating a new user ",
+            'user' => $user
+        ];
+
+        return view('Users/add', $data);
     }
 
     public function edit(int $id = null)
