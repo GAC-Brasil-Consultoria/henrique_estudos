@@ -29,8 +29,28 @@ class UserModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules = [
+        'name'     => 'required|min_length[3]|max_length[120]',
+        'email'        => 'required|max_length[120]|valid_email|is_unique[users.email]',
+        'password'     => 'required|min_length[6]',
+        'password_confirmation' => 'required_with[password]|matches[password]',
+    ];
+    protected $validationMessages = [
+        'name' => [
+            'required' => 'The name field is required',
+            'min_length' => 'The name need at least 3 carachters',
+            'max_length' => 'The name can be a maximum of 120 characters'
+        ],
+        'email' => [
+            'required' => 'The email field is required',
+            'max_length' => 'The name can be a maximum of 120 characters',
+            'is_unique' => 'Sorry. That email has already been taken. Please choose another.',
+        ],
+        'password_confirmation' => [
+            'required_with' => 'Please, confirme your password',
+            'matches' => 'The passwords do not match',
+        ]
+    ];
 
     // Callbacks
     protected $beforeInsert   = ['hashPassword'];
