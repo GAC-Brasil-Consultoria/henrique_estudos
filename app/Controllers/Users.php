@@ -322,6 +322,11 @@ class Users extends BaseController
                 $this->removeImg($user->image);
             }
 
+            $user->image = null;
+            $user->active = false;
+
+            $this->userModel->protect(false)->save($user);
+
             return redirect()->to(site_url('users'))->with('success', "User $user->name deleted!");
         }
 
