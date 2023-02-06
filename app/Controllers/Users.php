@@ -309,4 +309,28 @@ class Users extends BaseController
 
         return $user;
     }
+
+    public function delete(int $id = null)
+    {
+        $user = $this->getUser($id);
+
+        if($this->request->getMethod() === 'post')
+        {
+            $this->userModel->delete($user->id);
+            if($user->image != null)
+            {
+                $this->removeImg($user->image);
+            }
+
+            return redirect()->to(site_url('users'))->with('success', "User $user->name deleted!");
+        }
+
+        $data = [
+            'title' => "Deleting ".esc($user->name)."",
+            'user' => $user
+        ];
+
+        return view('Users/delete', $data);
+
+    }
 }
