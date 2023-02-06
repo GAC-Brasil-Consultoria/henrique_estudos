@@ -41,7 +41,7 @@
                 <a class="dropdown-item" href="<?php echo site_url("users/edit/$user->id"); ?>">Edit user</a>
                 
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
+                <a class="dropdown-item" href="<?php echo site_url("users/delete/$user->id"); ?>">Delete user</a>
             </div>
             <a href="<?php echo site_url("users") ?>" class="btn btn-secondary ml-2">Back</a>
         </div>
