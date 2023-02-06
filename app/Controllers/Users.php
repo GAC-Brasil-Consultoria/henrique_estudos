@@ -178,8 +178,21 @@ class Users extends BaseController
 
         $imgPath = WRITEPATH . 'uploads/'.$imgPath;
 
-        print_r($imgPath);
-        exit;
+        service('image')->withFile($imgPath)
+            ->fit(300, 300, 'center')
+            ->save($imgPath);
+
+            \Config\Services::image('imagick')
+            ->withFile($imgPath)
+            ->text('Dev ambient', [
+                'color'      => '#fff',
+                'opacity'    => 0.5,
+                'withShadow' => false,
+                'hAlign'     => 'center',
+                'vAlign'     => 'bottom',
+                'fontSize'   => 10,
+            ])
+            ->save($imgPath);
         
         if(empty($post['password']))
         {
