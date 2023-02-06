@@ -9,10 +9,10 @@
 
 <?php endif; ?>
 
-<?php if(session()->has('info')): ?>
+<?php if(session()->has('warning')): ?>
 
 <div class="alert alert-info alert-dismissible fade show" role="alert">
-    <strong>Info:</strong> <?php echo session('info'); ?>
+    <strong>Info:</strong> <?php echo session('warning'); ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
