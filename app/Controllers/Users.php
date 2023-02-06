@@ -36,10 +36,11 @@ class Users extends BaseController
             'name',
             'email',
             'active',
-            'image'
+            'image',
+            'deleted_at'
         ];
 
-        $users = $this->userModel->select($atributes)->orderBy('id', 'DESC')->findAll();
+        $users = $this->userModel->select($atributes)->withDeleted(true)->orderBy('id', 'DESC')->findAll();
 
         $data = [];
 
@@ -70,7 +71,7 @@ class Users extends BaseController
                 'image' => $user->image = img($image),
                 'name' => anchor("users/show/$user->id", esc($user->name), 'title="Show '.$userName.' user"'),
                 'email' => esc($user->email),
-                'active' => $user->active == true ? '<i class="fa fa-unlock text-sucess"></i>&nbsp;Active' : '<i class="fa fa-unlock text-warning"></i>&nbsp;Inactive'
+                'active' => $user->showStatus()
             ];
         }
 
@@ -314,6 +315,11 @@ class Users extends BaseController
     {
         $user = $this->getUser($id);
 
+        if($user->deleted_at != null)
+        {
+            return redirect()->back()->with('warning', "This user is already deleted");
+        }
+
         if($this->request->getMethod() === 'post')
         {
             $this->userModel->delete($user->id);
@@ -336,6 +342,24 @@ class Users extends BaseController
         ];
 
         return view('Users/delete', $data);
+
+    }
+
+    public function undodelete(int $id = null)
+    {
+        $user = $this->getUser($id);
+
+        if($user->deleted_at == null)
+        {
+            return redirect()->back()->with('warning', "Only deleted users can be recovery");
+        }
+
+        $user->deleted_at = null;
+        $user->active = true;
+
+        $this->userModel->protect(false)->save($user);
+
+        return redirect()->back()->with('success', "User $user->name restored");
 
     }
 }
