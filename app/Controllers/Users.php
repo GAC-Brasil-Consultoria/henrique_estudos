@@ -177,7 +177,24 @@ class Users extends BaseController
         $imgPath = $img->store('avatars');
 
         $imgPath = WRITEPATH . 'uploads/'.$imgPath;
+        
+        $this->editImg($imgPath, $user->id);
+        
+        $oldImg = $user->image;
 
+        $user->image = $img->getName();
+        $this->userModel->save($user);
+
+        if($oldImg != null)
+            $this->removeImg($oldImg);
+
+        session()->setFlashdata('success', 'Avatar updated with success!');
+        
+        return $this->response->setJSON($return);
+    }
+
+    private function editImg(string $imgPath, int $id)
+    {
         service('image')->withFile($imgPath)
             ->fit(300, 300, 'center')
             ->save($imgPath);
@@ -192,14 +209,36 @@ class Users extends BaseController
                 'vAlign'     => 'bottom',
                 'fontSize'   => 10,
             ])
-            ->save($imgPath);        
-        
-        $user->image = $img->getName();
-        $this->userModel->save($user);
+            ->save($imgPath);
+    }
 
-        session()->setFlashdata('success', 'Avatar updated with success!');
+    private function removeImg(string $img)
+    {
+        $imgPath = WRITEPATH . 'uploads/avatars/'.$img;
         
-        return $this->response->setJSON($return);
+        if(is_file($imgPath))
+        unlink($imgPath);
+    }
+    
+    
+    public function changeImg(int $id = null)
+    {
+        $user = $this->getUser($id);
+
+        $data = [
+            'title' => "changing ".esc($user->name)." profile picture",
+            'user' => $user
+        ];
+
+        return view('Users/change_img', $data);
+    }
+
+    public function image(string $img = null)
+    {
+        if($img != null)
+        {
+            $this->showFile('avatars', $img);
+        }
     }
     
     public function update()
@@ -237,21 +276,9 @@ class Users extends BaseController
         
         $return['error'] = 'Plese, check the errors below and try again';
         $return['errors_model'] = $this->userModel->errors();        
-
+        
         return $this->response->setJSON($return);
-    }
-
-    public function editImg(int $id = null)
-    {
-        $user = $this->getUser($id);
-
-        $data = [
-            'title' => "changing ".esc($user->name)." profile picture",
-            'user' => $user
-        ];
-
-        return view('Users/edit_img', $data);
-    }
+    }    
 
     private function getUser(int $id = null)
     {
