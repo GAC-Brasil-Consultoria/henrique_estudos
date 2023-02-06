@@ -192,31 +192,13 @@ class Users extends BaseController
                 'vAlign'     => 'bottom',
                 'fontSize'   => 10,
             ])
-            ->save($imgPath);
+            ->save($imgPath);        
         
-        if(empty($post['password']))
-        {
-            unset($post['password']);
-            unset($post['password_confirmation']);
-        }
-        
-        $user->fill($post);        
-        
-        if($user->hasChanged() == false)
-        {
-            $return['info'] = "No data to update...";
-            return $this->response->setJSON($return);
-        }
+        $user->image = $img->getName();
+        $this->userModel->save($user);
 
-        if($this->userModel->protect(false)->save($user))
-        {
-            session()->setFlashdata('sucess', 'Data saved!');
-            return $this->response->setJSON($return);
-        }
+        session()->setFlashdata('success', 'Avatar updated with success!');
         
-        $return['error'] = 'Plese, check the errors below and try again';
-        $return['errors_model'] = $this->userModel->errors();        
-
         return $this->response->setJSON($return);
     }
     
