@@ -19,10 +19,10 @@
                 <?php if($user->image == null): ?>
                     <img src="<?php echo site_url('resources/img/blankImg.png')?>" class="card-img-top" style="width: 90%;" alt="User without profile picture">
                 <?php else: ?>
-                    <img src="<?php echo site_url("users/images/$user->image")?>" class="card-img-top" style="width: 90%;" alt="<?php echo esc($user->name)?> profile picture">
+                    <img src="<?php echo site_url("users/image/$user->image")?>" class="card-img-top" style="width: 90%;" alt="<?php echo esc($user->name)?> profile picture">
 
                 <?php endif; ?>
-                <a href="<?php echo site_url("users/editImg/$user->id")?>" class="btn btn-outline-primary btn-sm mt-3">Change profile picture</a>
+                <a href="<?php echo site_url("users/changeImg/$user->id")?>" class="btn btn-outline-primary btn-sm mt-3">Change profile picture</a>
             </div>
 
             <hr class="border-secondary">
