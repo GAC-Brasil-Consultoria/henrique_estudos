@@ -45,9 +45,29 @@ class Users extends BaseController
 
         foreach($users as $user)
         {
+            if($user->image != null)
+            {
+                //has image
+                $image = [
+                    'src' => site_url("users/image/$user->image"),
+                    'class' => 'rounded-circle img-fluid',
+                    'alt' => esc($user->name),
+                    'width' => '50'
+                ];
+            }else
+            {
+                //no has image
+                $image = [
+                    'src' => site_url("resources/img/blankImg.png"),
+                    'class' => 'rounded-circle img-fluid',
+                    'alt' => 'User without Avatar',
+                    'width' => '50'
+                ];
+            }
+
             $userName = esc($user->name);
             $data[] = [
-                'image' => $user->image,
+                'image' => $user->image = img($image),
                 'name' => anchor("users/show/$user->id", esc($user->name), 'title="Show '.$userName.' user"'),
                 'email' => esc($user->email),
                 'active' => $user->active == true ? '<i class="fa fa-unlock text-sucess"></i>&nbsp;Active' : '<i class="fa fa-unlock text-warning"></i>&nbsp;Inactive'
