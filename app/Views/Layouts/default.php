@@ -186,6 +186,7 @@
         <ul class="list-unstyled">
                 <li class="<?php echo (url_is('/') ? 'active' : '') ?>"><a href="<?php echo site_url('/') ?>"> <i class="icon-home"></i>Home </a></li>
                 <li class="<?php echo (url_is('/users*') ? 'active' : '') ?>"><a href="<?php echo site_url('users') ?>"> <i class="icon-user"></i>Users </a></li>
+                <li class="<?php echo (url_is('/groups*') ? 'active' : '') ?>"><a href="<?php echo site_url('groups') ?>"> <i class="icon-settings"></i>Groups & Permissions</a></li>
                 <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
                 <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>
                 <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Example dropdown </a>
