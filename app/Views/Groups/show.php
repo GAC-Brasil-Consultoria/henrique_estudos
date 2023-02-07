@@ -1,0 +1,51 @@
+<?php echo $this->extend('Layouts/default') ?>
+
+<?php $this->section('title') ?> <?php echo $title; ?> <?php echo $this->endSection() ?>
+
+
+<?php $this->section('styles') ?>
+
+<?php echo $this->endSection() ?>
+
+
+<?php $this->section('content') ?>
+
+<div class="row">
+
+    <div class="col-lg-3">
+        <div class="user-block block">    
+
+            <h4 class="card-title mt-2"><?php echo esc($group->name); ?></h5>
+            <p class="card-text">Description: <?php echo $group->description ?></p>
+            <p class="contributions mt-0">Status: <?php echo $group->showStatus() ?></p>
+            <p class="card-text">Created <?php echo $group->created_at->humanize(); ?></p>
+            <p class="card-text">Updated <?php echo $group->updated_at->humanize(); ?></p>
+            <!-- Example single danger button -->
+            <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="<?php echo site_url("groups/edit/$group->id"); ?>">Edit group</a>
+                
+                <div class="dropdown-divider"></div>
+                <?php if($group->deleted_at == null): ?>
+                    <a class="dropdown-item" href="<?php echo site_url("groups/delete/$group->id"); ?>">Delete group</a>
+                <?php else: ?>
+                    <a class="dropdown-item" href="<?php echo site_url("groups/restoregroup/$group->id"); ?>">Restore group</a>
+                <?php endif; ?>
+            </div>
+            <a href="<?php echo site_url("groups") ?>" class="btn btn-secondary ml-2">Back</a>
+        </div>
+    </div>
+
+    </div>
+
+</div>
+
+<?php echo $this->endSection() ?>
+
+
+<?php $this->section('scripts') ?>
+
+<?php echo $this->endSection() ?>
