@@ -47,9 +47,9 @@ class Groups extends BaseController
             
             $groupName = esc($group->name);
             $data[] = [
-                'name' => anchor("users/show/$group->id", esc($group->name), 'title="Show '.$groupName.' group"'),
+                'name' => anchor("groups/show/$group->id", esc($group->name), 'title="Show '.$groupName.' group"'),
                 'description' => esc($group->description),
-                'show' => ($group->show == true ? '<i class="fa fa-eye text-secondary"></i>&nbsp;Show group' : '<i class="fa fa-eye-slash text-danger"></i>')
+                'show' => $group->showStatus()
             ];
         }
 
@@ -58,5 +58,47 @@ class Groups extends BaseController
         ];
 
         return $this->response->setJSON($retorno);
+    }
+
+    private function getGroupByID(int $id = null)
+    {
+        if(!$id || !$group = $this->groupModel->withDeleted(true)->find($id))
+        {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Group $id not found");
+        }
+
+        return $group;
+    }
+
+    public function show(int $id = null)
+    {
+        $group = $this->getGroupByID($id);
+
+
+
+        $data = [
+            'title' => "Detailing group ".esc($group->name),
+            'group' => $group
+        ];
+
+        return view('groups/show', $data);
+    }
+
+    public function undodelete(int $id = null)
+    {
+        $group = $this->getGroupByID($id);
+
+        if($group->deleted_at == null)
+        {
+            return redirect()->back()->with('warning', "Only deleted groups can be recovery");
+        }
+
+        $group->deleted_at = null;
+        $group->active = true;
+
+        $this->groupModel->protect(false)->save($group);
+
+        return redirect()->back()->with('success', "group $group->name restored");
+
     }
 }
