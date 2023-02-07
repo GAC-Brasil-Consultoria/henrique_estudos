@@ -235,6 +235,15 @@
     <script src="<?php echo site_url('resources/'); ?>vendor/popper.js/umd/popper.min.js"> </script>
     <script src="<?php echo site_url('resources/'); ?>vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo site_url('resources/'); ?>js/front.js"></script>
+    <script>
+
+      $(function () {
+        $('[data-toggle="popover"]').popover({
+          html: true,
+        })
+      })
+
+    </script>
     <?php echo $this->renderSection('scripts'); ?>
   </body>
 </html>
