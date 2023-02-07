@@ -17,7 +17,13 @@
 
             <h4 class="card-title mt-2"><?php echo esc($group->name); ?></h5>
             <p class="card-text">Description: <?php echo $group->description ?></p>
-            <p class="contributions mt-0">Status: <?php echo $group->showStatus() ?></p>
+            <p class="contributions mt-0">Status: <?php echo $group->showStatus() ?>
+            
+                <?php if($group->deleted_at == null): ?>
+                    <a tabindex="0" style="text-decoration: none;" role="button" data-toggle="popover" data-trigger="hover" title="Important" data-content="This group will 
+                    <?php echo $group->show == true ? '' : 'not'?> displayed as option">&nbsp;&nbsp;<i class="fa fa-question-circle fa-lg text-danger"></i></a>
+                <?php endif; ?>
+            </p>
             <p class="card-text">Created <?php echo $group->created_at->humanize(); ?></p>
             <p class="card-text">Updated <?php echo $group->updated_at->humanize(); ?></p>
             <!-- Example single danger button -->
