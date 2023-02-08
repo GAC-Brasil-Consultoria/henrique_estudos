@@ -84,6 +84,43 @@ class Groups extends BaseController
         return view('groups/show', $data);
     }
 
+    public function add(int $id = null)
+    {
+        $group = new Group();
+
+        $data = [
+            'title' => "Register new group ",
+            'group' => $group
+        ];
+
+        return view('Groups/add', $data);
+    }
+
+    public function insert()
+    {
+        if(!$this->request->isAJAX())
+            return redirect()->back();
+        
+        $return['token'] = csrf_hash();
+
+        $post = $this->request->getPost();
+
+        $group = new Group($post);
+        
+        if($this->groupModel->protect(false)->save($group))
+        {
+            $btnAdd = anchor("users/add", 'Register new group', ['class' => 'btn btn-danger mt-2']);
+            session()->setFlashdata('sucess', "Data saved! <br> $btnAdd");
+            $return['id'] = $this->groupModel->getInsertID();
+            return $this->response->setJSON($return);
+        }
+        
+        $return['error'] = 'Plese, check the errors below and try again';
+        $return['errors_model'] = $this->groupModel->errors();        
+
+        return $this->response->setJSON($return);
+    }
+
     public function edit(int $id = null)
     {
         $group = $this->getGroupByID($id);
@@ -141,6 +178,37 @@ class Groups extends BaseController
         $return['errors_model'] = $this->groupModel->errors();        
         
         return $this->response->setJSON($return);
+    }
+
+    public function delete(int $id = null)
+    {
+        $group = $this->getGroupByID($id);
+
+        if($group->deleted_at != null)
+        {
+            return redirect()->back()->with('warning', "This group is already deleted");
+        }
+
+        if($this->request->getMethod() === 'post')
+        {
+            $this->groupModel->delete($group->id);
+            
+
+            $group->image = null;
+            $group->active = false;
+
+            $this->groupModel->protect(false)->save($group);
+
+            return redirect()->to(site_url('users'))->with('success', "group $group->name deleted!");
+        }
+
+        $data = [
+            'title' => "Deleting ".esc($group->name)."",
+            'group' => $group
+        ];
+
+        return view('Groups/delete', $data);
+
     }
 
     public function undodelete(int $id = null)
