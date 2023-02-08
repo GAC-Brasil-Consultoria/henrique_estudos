@@ -112,6 +112,17 @@ class Groups extends BaseController
         
         $group = $this->getGroupByID($post['id']);
         
+        if($group->id < 3)
+        {
+            //return redirect()->back()->with('info', 'The group <b>'.esc($group->name).
+            //'</b> cannot be edited or deleted!');
+            $return['error'] = 'Plese, check the errors below and try again';
+            $return['errors_model'] = ['group' => 'The group <b class="text-white">'.esc($group->name).
+            '</b> cannot be edited or deleted!'];        
+            
+            return $this->response->setJSON($return);
+        }
+        
         $group->fill($post);        
         
         if($group->hasChanged() == false)
