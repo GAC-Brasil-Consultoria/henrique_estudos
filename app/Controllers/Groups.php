@@ -109,7 +109,7 @@ class Groups extends BaseController
         
         if($this->groupModel->protect(false)->save($group))
         {
-            $btnAdd = anchor("users/add", 'Register new group', ['class' => 'btn btn-danger mt-2']);
+            $btnAdd = anchor("groups/add", 'Register new group', ['class' => 'btn btn-danger mt-2']);
             session()->setFlashdata('sucess', "Data saved! <br> $btnAdd");
             $return['id'] = $this->groupModel->getInsertID();
             return $this->response->setJSON($return);
@@ -184,6 +184,12 @@ class Groups extends BaseController
     {
         $group = $this->getGroupByID($id);
 
+        if($group->id < 3)
+        {
+            return redirect()->back()->with('warning', 'The group <b>'.esc($group->name).
+            '</b> cannot be edited or deleted!');
+        }
+
         if($group->deleted_at != null)
         {
             return redirect()->back()->with('warning', "This group is already deleted");
@@ -192,14 +198,10 @@ class Groups extends BaseController
         if($this->request->getMethod() === 'post')
         {
             $this->groupModel->delete($group->id);
-            
-
-            $group->image = null;
-            $group->active = false;
 
             $this->groupModel->protect(false)->save($group);
 
-            return redirect()->to(site_url('users'))->with('success', "group $group->name deleted!");
+            return redirect()->to(site_url('groups'))->with('success', 'Group '.esc($group->name).' deleted!');
         }
 
         $data = [
@@ -221,7 +223,6 @@ class Groups extends BaseController
         }
 
         $group->deleted_at = null;
-        $group->active = true;
 
         $this->groupModel->protect(false)->save($group);
 
