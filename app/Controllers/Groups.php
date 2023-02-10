@@ -251,6 +251,6 @@ class Groups extends BaseController
             'group' => $group
         ];
 
-        return view('groups/show', $data);
+        return view('Groups/permissions', $data);
     }
 }
