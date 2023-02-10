@@ -229,4 +229,28 @@ class Groups extends BaseController
         return redirect()->back()->with('success', "group $group->name restored");
 
     }
+
+    public function permissions(int $id = null)
+    {
+        $group = $this->getGroupByID($id);
+
+        if($group->id == 1)
+        {
+            return redirect()->back()->with('warning', 'No need to assign or remove access permissions for the group <b>'
+            .esc($group->name).'</b>');
+        }
+
+        if($group->id == 2)
+        {
+            return redirect()->back()->with('warning', 
+            'No need to assign or remove access permissions for the <b>Customers</b> group');
+        }
+
+        $data = [
+            'title' => "Managing ".esc($group->name)." permissions",
+            'group' => $group
+        ];
+
+        return view('groups/show', $data);
+    }
 }
