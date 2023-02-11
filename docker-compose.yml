@@ -1,36 +1,41 @@
 version: "3"
 services:
-    www:
-        build: .
-        ports: 
-            - "8080:80"
-        volumes:
-            - ./:/var/www
-            - ./public:/var/www/html/
-        links:
-            - db
-        networks:
-            - default
-    db:
-        image: mysql
-        ports: 
-            - "3306:3306"
-        environment:
-            MYSQL_DATABASE: ordem
-            MYSQL_PASSWORD: 123
-            MYSQL_ROOT_PASSWORD: 123
-        volumes:
-            - ./dump:/docker-entrypoint-initdb.d
-            - persistent:/var/lib/mysql
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        links: 
-            - db:db
-        ports:
-            - 8000:80
-        environment:
-            PMA_HOST: db
-            PMA_USER: root
-            PMA_PASSWORD: 123
+  www:
+    build:
+      context: .
+      args:
+        USER_ID: "${USER_ID}"
+        GROUP_ID: "${GROUP_ID}"
+    user: "${USER_ID}:${GROUP_ID}"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+      - ./public:/var/www/html/
+    links:
+      - db
+
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ordem
+      MYSQL_ROOT_PASSWORD: 123
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+      - persistent:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db
+    ports:
+      - 8000:80
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: 123
+
 volumes:
-    persistent:
+  persistent:
