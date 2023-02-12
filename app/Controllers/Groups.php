@@ -9,10 +9,12 @@ class Groups extends BaseController
 {
 
     private $groupModel;
+    private $groupPermModel;
 
     public function __construct()
     {
         $this->groupModel = new \App\Models\GroupModel();
+        $this->groupPermModel = new \App\Models\GroupPermissionModel();
     }
 
     public function index()
@@ -81,7 +83,7 @@ class Groups extends BaseController
             'group' => $group
         ];
 
-        return view('groups/show', $data);
+        return view('Groups/show', $data);
     }
 
     public function add(int $id = null)
@@ -245,6 +247,11 @@ class Groups extends BaseController
             return redirect()->back()->with('warning', 
             'No need to assign or remove access permissions for the <b>Customers</b> group');
         }
+        elseif($group->id != 0)
+        {
+            $group->permissions = $this->groupPermModel->getPermissionsGroup($group->id, 5);
+            $group->pager = $this->groupPermModel->pager;
+        }        
 
         $data = [
             'title' => "Managing ".esc($group->name)." permissions",
