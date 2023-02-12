@@ -50,7 +50,9 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="<?php echo site_url("groups/edit/$group->id"); ?>">Edit group</a>
-
+                        <?php if($group->id > 2): ?>
+                            <a class="dropdown-item" href="<?php echo site_url("groups/permissions/$group->id"); ?>">Manage group permissions</a>
+                        <?php endif; ?>
                         <div class="dropdown-divider"></div>
                         <?php if($group->deleted_at == null): ?>
                         <a class="dropdown-item" href="<?php echo site_url("groups/delete/$group->id"); ?>">Delete
