@@ -21,14 +21,14 @@ class GroupPermissionModel extends Model
     {
         $atributes = [
             'groups_permissions.id',
-            'groups.id AS group.id',
-            'permissions.id AS permission.id',
+            'groups.id AS group_id',
+            'permissions.id AS permission_id',
             'permissions.name' 
         ];
 
         return $this->select($atributes)
             ->join('groups', 'groups.id = groups_permissions.group_id')
-            ->join('permissions', 'permissions.id = groups_permissions.permissions_id')
+            ->join('permissions', 'permissions.id = groups_permissions.permission_id')
             ->where('groups_permissions.group_id', $group_id)
             ->groupBy('permissions.name')
             ->paginate($qtt_pages);
