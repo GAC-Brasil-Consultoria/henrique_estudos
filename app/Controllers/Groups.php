@@ -10,11 +10,13 @@ class Groups extends BaseController
 
     private $groupModel;
     private $groupPermModel;
+    private $permissionModel;
 
     public function __construct()
     {
         $this->groupModel = new \App\Models\GroupModel();
         $this->groupPermModel = new \App\Models\GroupPermissionModel();
+        $this->permissionModel = new \App\Models\PermissionModel();
     }
 
     public function index()
@@ -247,7 +249,7 @@ class Groups extends BaseController
             return redirect()->back()->with('warning', 
             'No need to assign or remove access permissions for the <b>Customers</b> group');
         }
-        elseif($group->id != 0)
+        if($group->id > 2)
         {
             $group->permissions = $this->groupPermModel->getPermissionsGroup($group->id, 5);
             $group->pager = $this->groupPermModel->pager;
@@ -257,6 +259,17 @@ class Groups extends BaseController
             'title' => "Managing ".esc($group->name)." permissions",
             'group' => $group
         ];
+
+        if(!empty($group->permissions))
+        {
+            $existingPerm = array_column($group->permissions, 'permission_id');
+
+            $data['avaliablePerms'] = $this->permissionModel->whereNotIn('id', $existingPerm)->findAll();
+        }
+        else
+        {
+            $data['avaliablePerms'] = $this->permissionModel->whereNotIn('id')->findAll();
+        }
 
         return view('Groups/permissions', $data);
     }
