@@ -95,7 +95,16 @@
                         <tr>
                             <td><?php echo esc($perm->name) ?></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+
+                                <?php
+                                    $atributes = [
+                                        'onSubmit' => "return confirm('Are you sure?');"
+                                    ];
+                                ?>
+
+                                <?php echo form_open("groups/removePerm/$group->id", $atributes) ?>
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                <?php echo form_close(); ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
