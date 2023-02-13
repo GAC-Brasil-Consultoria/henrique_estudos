@@ -307,4 +307,20 @@ class Groups extends BaseController
         session()->setFlashdata('success', 'Data saved!');
         return $this->response->setJSON($return);
     }
+
+    public function removePerm(int $id = null)
+    {
+        
+        if($this->request->getMethod() === 'post')
+        {
+            $this->groupPermModel->delete($id);
+
+            return redirect()->back()->with('success', 'Permission removed!');
+        }
+        else
+        {
+            return redirect()->back();
+        }
+        
+    }
 }
