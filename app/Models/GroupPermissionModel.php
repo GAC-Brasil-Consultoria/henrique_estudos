@@ -20,7 +20,7 @@ class GroupPermissionModel extends Model
     public function getPermissionsGroup(int $group_id, int $qtt_pages)
     {
         $atributes = [
-            'groups_permissions.id',
+            'groups_permissions.id as main_id',
             'groups.id AS group_id',
             'permissions.id AS permission_id',
             'permissions.name' 
