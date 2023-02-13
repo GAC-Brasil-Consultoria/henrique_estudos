@@ -124,7 +124,7 @@ class Users extends BaseController
         if($this->userModel->protect(false)->save($user))
         {
             $btnAdd = anchor("users/add", 'Register new user', ['class' => 'btn btn-danger mt-2']);
-            session()->setFlashdata('sucess', "Data saved! <br> $btnAdd");
+            session()->setFlashdata('success', "Data saved! <br> $btnAdd");
             $return['id'] = $this->userModel->getInsertID();
             return $this->response->setJSON($return);
         }
@@ -291,7 +291,7 @@ class Users extends BaseController
 
         if($this->userModel->protect(false)->save($user))
         {
-            session()->setFlashdata('sucess', 'Data saved!');
+            session()->setFlashdata('success', 'Data saved!');
             return $this->response->setJSON($return);
         }
         

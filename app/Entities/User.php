@@ -19,7 +19,7 @@ class User extends Entity
 
             return $btnUndo;
         }
-        //'<i class="fa fa-unlock text-sucess"></i>&nbsp;Active' : '<i class="fa fa-unlock text-warning"></i>&nbsp;Inactive'
+        //'<i class="fa fa-unlock text-success"></i>&nbsp;Active' : '<i class="fa fa-unlock text-warning"></i>&nbsp;Inactive'
         
 
         return $this->active == true ? '<i class="fa fa-unlock text-success"></i>&nbsp;Active' :
