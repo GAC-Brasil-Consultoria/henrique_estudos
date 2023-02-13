@@ -128,6 +128,57 @@
 <script>
 $(document).ready(function() {
     $('#selectize').selectize();
+
+    $("#form").on('submit', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo site_url('groups/savePerms') ?>',
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function(){
+                    $("#response").html('');
+                    $("#btn-save").val('Wait..');
+                },
+                success: function(response){
+                    $("#btn-save").val('Save');
+                    $("#btn-save").removeAttr("disabled");
+
+                    $('[name=csrf_test_name ]').val(response.token);
+
+                    if(!response.error)
+                    {
+                        
+                        window.location.href = "<?php echo site_url("groups/permissions/$group->id"); ?>";
+                    }
+                    if(response.error)
+                    {
+                        $("#response").html('<div class="alert alert-danger">'+response.error+'</div>');
+                        if(response.errors_model)
+                        {
+                            $.each(response.errors_model, function(key, value){
+                                $('#response').append('<ul class="list-unstyled"><li class="text-danger">'+value+'</li></ul>')
+                            })
+                        }
+                    }
+                },
+                error: function(e){
+                    alert('Error');
+                    var r = jQuery.parseJSON(e.responseText);
+                    console.log("Message: " + r.Message);
+                    console.log("StackTrace: " + r.StackTrace);
+                    console.log("ExceptionType: " + r.ExceptionType);
+                    $('#btn-salvar').val('Save');
+                }
+            })
+        });
+        $("#form").submit(function(){
+            $(this).find(":submit").attr('disabled', 'disabled');
+        });
 });
 </script>
 
