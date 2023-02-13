@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PermissionsModel extends Model
+class PermissionModel extends Model
 {
     
     protected $table            = 'permissions';
