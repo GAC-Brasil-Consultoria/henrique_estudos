@@ -114,7 +114,7 @@ class Groups extends BaseController
         if($this->groupModel->protect(false)->save($group))
         {
             $btnAdd = anchor("groups/add", 'Register new group', ['class' => 'btn btn-danger mt-2']);
-            session()->setFlashdata('sucess', "Data saved! <br> $btnAdd");
+            session()->setFlashdata('success', "Data saved! <br> $btnAdd");
             $return['id'] = $this->groupModel->getInsertID();
             return $this->response->setJSON($return);
         }
@@ -174,7 +174,7 @@ class Groups extends BaseController
 
         if($this->groupModel->protect(false)->save($group))
         {
-            session()->setFlashdata('sucess', 'Data saved!');
+            session()->setFlashdata('success', 'Data saved!');
             return $this->response->setJSON($return);
         }
         
@@ -272,5 +272,39 @@ class Groups extends BaseController
         }
 
         return view('Groups/permissions', $data);
+    }
+
+    public function savePerms()
+    {
+        if(!$this->request->isAJAX())
+            return redirect()->back();
+        
+        $return['token'] = csrf_hash();
+
+        $post = $this->request->getPost();
+
+        
+        
+        $group = $this->getGroupByID($post['id']);
+        
+        if(empty($post['permission_id']))
+        {
+            $return['error'] = 'Plese, check the errors below and try again';
+            $return['errors_model'] = ['permission_id' => 'Choose one or more permissions to save!'];    
+        }
+
+        $permissionPush = [];
+
+        foreach($post['permission_id'] as $perm)
+        {
+            array_push($permissionPush, [
+                'group_id' => $group->id,
+                'permission_id' => $perm
+            ]);
+        }
+        
+        $this->groupPermModel->insertBatch($permissionPush);
+        session()->setFlashdata('success', 'Data saved!');
+        return $this->response->setJSON($return);
     }
 }
