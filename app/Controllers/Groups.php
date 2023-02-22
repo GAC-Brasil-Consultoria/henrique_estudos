@@ -268,7 +268,7 @@ class Groups extends BaseController
         }
         else
         {
-            $data['avaliablePerms'] = $this->permissionModel->whereNotIn('id')->findAll();
+            $data['avaliablePerms'] = $this->permissionModel->findAll();
         }
 
         return view('Groups/permissions', $data);
