@@ -8,7 +8,7 @@ class PermissionSeeder extends Seeder
 {
     public function run()
     {
-        $permissionModel = new \App\Models\PermissionsModel();
+        $permissionModel = new \App\Models\PermissionModel();
 
         $permissions = [
             ['name' =>  'list_users'],
