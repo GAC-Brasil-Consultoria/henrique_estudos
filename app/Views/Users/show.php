@@ -39,6 +39,7 @@
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="<?php echo site_url("users/edit/$user->id"); ?>">Edit user</a>
+                <a class="dropdown-item" href="<?php echo site_url("users/groups/$user->id"); ?>">Manage groups access</a>
                 
                 <div class="dropdown-divider"></div>
                 <?php if($user->deleted_at == null): ?>
