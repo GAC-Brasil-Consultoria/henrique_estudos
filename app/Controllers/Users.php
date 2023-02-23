@@ -10,10 +10,12 @@ use function PHPUnit\Framework\isEmpty;
 class Users extends BaseController
 {
     private $userModel;
+    private $groupUserModel;
 
     public function __construct()
     {
         $this->userModel = new \App\Models\UserModel();
+        $this->groupUserModel = new \App\Models\GroupUserModel();
     }
 
     public function index()
@@ -361,5 +363,21 @@ class Users extends BaseController
 
         return redirect()->back()->with('success', "User $user->name restored");
 
+    }
+
+    public function groups(int $id = null)
+    {
+        $user = $this->getUser($id);
+
+        $user->groups = $this->groupUserModel->getGroupsUsers($user->id, 5);
+        $user->pager = $this->groupUserModel->pager;
+        
+        $data = [
+            'title' => "Managing access groups from user ".esc($user->name),
+            'user' => $user
+        ];
+
+        
+        return view('Users/groups', $data);
     }
 }
