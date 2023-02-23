@@ -11,11 +11,13 @@ class Users extends BaseController
 {
     private $userModel;
     private $groupUserModel;
+    private $groupModel;
 
     public function __construct()
     {
         $this->userModel = new \App\Models\UserModel();
         $this->groupUserModel = new \App\Models\GroupUserModel();
+        $this->groupModel = new \App\Models\GroupModel();
     }
 
     public function index()
@@ -377,7 +379,20 @@ class Users extends BaseController
             'user' => $user
         ];
 
-        
+        if(!empty($user->groups))
+        {
+            $existingGroups = array_column($user->groups, 'group_id');
+            $data['avaliableGroups'] = $this->groupModel->where('id!=', 2)
+                                                        ->whereNotIn('id', $existingGroups)
+                                                        ->findAll();
+        }
+        else
+        {
+            $existingGroups = array_column($user->groups, 'group_id');
+            $data['avaliableGroups'] = $this->groupModel->where('id!=', 2)
+                                                        ->findAll();
+        }
+
         return view('Users/groups', $data);
     }
 }
